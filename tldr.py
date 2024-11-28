@@ -64,6 +64,7 @@ def get_paper_tldr(paper:arxiv.Result, model:Llama) -> str:
             }
         ],
         top_k=0,
-        temperature=0
+        temperature=0, 
+        max_tokens = 8192
     )
     return response['choices'][0]['message']['content']
