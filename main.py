@@ -256,6 +256,27 @@ if __name__ == '__main__':
     )  # If use_llm_api is True, openai_api_key must be provided
     if args.debug:
         logger.debug("Debug mode is on.")
+
+    reminder_html = """
+    <html>
+        <body>
+            <p>你好，</p>
+            <p>即将开始今日的论文推送，请稍等片刻。</p>
+            <p>祝好！</p>
+        </body>
+    </html>
+    """
+    logger.info("Sending reminder email...")
+    send_email(
+        sender=args.sender,
+        receiver=args.receiver,
+        password=args.password,
+        smtp_server=args.smtp_server,
+        smtp_port=args.smtp_port,
+        html=reminder_html
+    )
+    logger.success("Reminder email sent successfully!")
+    
     today = datetime.datetime.now(tz=datetime.timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
     yesterday = today - datetime.timedelta(days=1)
     logger.info("Retrieving Zotero corpus...")
