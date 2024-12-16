@@ -312,6 +312,24 @@ if __name__ == '__main__':
     logger.info("Retrieving Arxiv papers...")
     papers = get_arxiv_paper(args.arxiv_query, yesterday, today, args.debug)
     if len(papers) == 0:
+        reminder_html = """
+        <html>
+            <body>
+                <p>您好，</p>
+                    <p>No new papers found. Yesterday maybe a holiday and no one submit their work :). If this is not the case, please check the ARXIV_QUERY.。</p>
+                <p>祝好！</p>
+            </body>
+        </html>
+        """
+        logger.info("Sending reminder email...")
+        send_email(
+            sender=args.sender,
+            receiver=args.receiver,
+            password=args.password,
+            smtp_server=args.smtp_server,
+            smtp_port=args.smtp_port,
+            html=reminder_html
+        )
         logger.info("No new papers found. Yesterday maybe a holiday and no one submit their work :). If this is not the case, please check the ARXIV_QUERY.")
         if not args.send_empty:
           exit(0)
